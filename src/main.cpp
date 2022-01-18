@@ -8,6 +8,9 @@
 
 #include <iostream>
 #include <vector>
+#include <filesystem>
+
+namespace fs = std::filesystem;
 
 // timestamp
 struct TS {
@@ -31,14 +34,20 @@ struct Row {
 	std::string sName;
 	int nId;
 	float fLen;
+
+	Row(): sName(""), nId(0), fLen(0.0f) {}
+	Row(std::string sName_, int nId_, float fLen_) : nId(nId_), fLen(fLen_){
+		sName = tara::mf::pySplit(sName_, "\\")[1];
+		sName = tara::mf::pySplit(sName, ".")[0];
+	}
 	void draw(olc::PixelGameEngine* pge, olc::vi2d pos, olc::Pixel bg = olc::BLACK, bool bSelected = false) {
 		if (sName == "") return;
-		olc::vi2d newPos = pos + (nId ) * olc::vi2d{ 0, 16 + 1 };
-		pge->FillRect(newPos, { pge->ScreenWidth(), 16 + 1 }, bg);
-		if (bSelected) pge->DrawRect(newPos, { pge->ScreenWidth(), 16 }, olc::RED);
-
-		pge->DrawString(newPos + olc::vi2d{5,0}, std::to_string(nId) + ": " + sName, olc::WHITE, 2);
-		newPos += olc::vi2d{ pge->ScreenWidth() - 16 * (int)TS((int)fLen).str().size(), 0};
+		olc::vi2d newPos = pos + (nId ) * olc::vi2d{ 0, 16 + 8 };
+		pge->FillRect(newPos, { pge->ScreenWidth(), 16 + 4 }, bg);
+		if (bSelected) pge->DrawRect(newPos, { pge->ScreenWidth(), 16 + 4}, olc::RED);
+		constexpr int nTextOff = 2;
+		pge->DrawString(newPos + olc::vi2d{5,nTextOff }, /*std::to_string(nId) + ": " + */ sName, olc::WHITE, 2);
+		newPos += olc::vi2d{ pge->ScreenWidth() - 16 * (int)TS((int)fLen).str().size(), nTextOff};
 		pge->DrawString(newPos, 
 			TS((int)fLen).str(), olc::WHITE, 2);
 	}
@@ -106,16 +115,17 @@ protected:
 	bool OnUserCreate() override {
 		s.InitialiseAudio();
 
-		AddTrack("04 investigation.wav");
-		AddTrack("04 investigation.wav");
+		//for (int i=0; i< 10; i++)
+		//	AddTrack("04 investigation.wav");
 
-		
+		for (const auto& entry : fs::directory_iterator("lineup"))
+			AddTrack(entry.path().string());
 		//s.listActiveSamples
 		return true;
 	}
 
 	bool OnUserUpdate(float elapsedTime) override {
-		Sleep(1000 * std::max(0.0f, (1.0f / 30.0f) - elapsedTime));
+		Sleep(1000.0f * std::max(0.0f, (1.0f / 30.0f) - elapsedTime));
 		if (GetKey(olc::ESCAPE).bPressed) return false;
 		
 		Clear(olc::BLACK);
@@ -146,7 +156,7 @@ protected:
 
 		if (s.listActiveSamples.size() > 0) {
 			int id = s.listActiveSamples.begin()->nAudioSampleID;
-			DrawString({ 20, ScreenHeight() - 100 }, std::to_string(id) + ": " + vRows[id].sName, olc::YELLOW, 3); // size 8 << 3 == 64px
+			DrawString({ 20, ScreenHeight() - 100 }, /*std::to_string(id) + ": " +*/ vRows[id].sName, olc::YELLOW, 3); // size 8 << 3 == 64px
 
 			DrawString({ 20, ScreenHeight() - 36 }, TS(s.listActiveSamples.begin()->nSamplePosition / 44100).str() + " / " + TS((int)vRows[id].fLen).str(), olc::YELLOW, 2);
 
