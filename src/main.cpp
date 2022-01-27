@@ -125,7 +125,7 @@ protected:
 	}
 
 	bool OnUserUpdate(float elapsedTime) override {
-		Sleep(1000.0f * std::max(0.0f, (1.0f / 30.0f) - elapsedTime));
+		Sleep(1000.0f * std::max(0.0f, (1.0f / 25.0f) - elapsedTime));
 		if (GetKey(olc::ESCAPE).bPressed) return false;
 		
 		Clear(olc::BLACK);
@@ -161,6 +161,11 @@ protected:
 			DrawString({ 20, ScreenHeight() - 36 }, TS(s.listActiveSamples.begin()->nSamplePosition / 44100).str() + " / " + TS((int)vRows[id].fLen).str(), olc::YELLOW, 2);
 
 
+		}
+		else {
+			s.StopAll();
+			s.listActiveSamples.clear();
+			nCurrSound = 0;
 		}
 
 		return true;
