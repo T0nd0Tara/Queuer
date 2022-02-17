@@ -19,6 +19,7 @@
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
+<<<<<<< HEAD
   <ItemGroup>
     <Media Include="04 investigation.wav">
       <Filter>Resource Files</Filter>
@@ -27,4 +28,6 @@
   <ItemGroup>
     <Text Include="lineup\title.txt" />
   </ItemGroup>
+=======
+>>>>>>> a73c3227e391968cdd34a078c8f1aa237d69923b
 </Project>

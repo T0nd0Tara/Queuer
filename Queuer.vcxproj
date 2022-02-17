@@ -157,12 +157,15 @@
   <ItemGroup>
     <ClCompile Include="src\main.cpp" />
   </ItemGroup>
+<<<<<<< HEAD
   <ItemGroup>
     <Media Include="04 investigation.wav" />
   </ItemGroup>
   <ItemGroup>
     <Text Include="lineup\title.txt" />
   </ItemGroup>
+=======
+>>>>>>> a73c3227e391968cdd34a078c8f1aa237d69923b
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>
