@@ -24,4 +24,7 @@
       <Filter>Resource Files</Filter>
     </Media>
   </ItemGroup>
+  <ItemGroup>
+    <Text Include="lineup\title.txt" />
+  </ItemGroup>
 </Project>
