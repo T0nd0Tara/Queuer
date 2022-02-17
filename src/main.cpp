@@ -1,7 +1,7 @@
 #define OLC_PGE_APPLICATION
 #include <olcPixelGameEngine.h>
 #define OLC_PGEX_SOUND
-#include <Extensions/olcPGEX_Sound_EXTERNAL.h>
+#include <Extensions/olcPGEX_Sound.h>
 
 #define TARA_PGE_EXTENSION
 #include <taraNS\mf.hpp>
